@@ -1,24 +1,24 @@
 package task2
 
 type Envelope struct {
-	ab, cd float32
+	AB, CD float32
 }
 
 func Task2(envA, envB Envelope) int {
 	out := 0
-	if envA.ab <= 0 || envA.cd <= 0 || envB.ab <= 0 || envB.cd <= 0 {
+	if envA.AB <= 0 || envA.CD <= 0 || envB.AB <= 0 || envB.CD <= 0 {
 		return out
 	}
-	if envA.cd > envA.ab {
-		envA.ab, envA.cd = envA.cd, envA.ab
+	if envA.CD > envA.AB {
+		envA.AB, envA.CD = envA.CD, envA.AB
 	}
-	if envB.cd > envB.ab {
-		envB.ab, envB.cd = envB.cd, envB.ab
+	if envB.CD > envB.AB {
+		envB.AB, envB.CD = envB.CD, envB.AB
 	}
-	if (envA.ab > envB.ab) && (envA.cd > envB.cd) {
+	if (envA.AB > envB.AB) && (envA.CD > envB.CD) {
 		out = 2
 	}
-	if (envB.ab > envA.ab) && (envB.cd > envA.cd) {
+	if (envB.AB > envA.AB) && (envB.CD > envA.CD) {
 		out = 1
 	}
 	return out

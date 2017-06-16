@@ -30,7 +30,7 @@ func Task5(min, max int) Ticket {
 			}
 		}
 		if even == odd {
-			difficult ++
+			difficult++
 		}
 		if half1 == half2 {
 			easy++

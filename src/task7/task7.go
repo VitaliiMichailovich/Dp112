@@ -5,15 +5,13 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 const path = "./context"
 
-func Task7() []int {
-	var out []int
-
+func Task7() []int64 {
 	var file, err = os.OpenFile(path, os.O_RDWR, 0644)
 	checkError(err)
 	defer file.Close()
@@ -34,33 +32,35 @@ func Task7() []int {
 	}
 
 	in := strings.Fields(string(text))
-	fmt.Println(in[1])
+
+	var start, stop int
 	if len(in) == 1 {
 		//len, err := strconv.Atoi(in[0])
-
 	} else {
-		var start, stop int
 		min, err := strconv.ParseInt(in[0], 10, 64)
-		if err != nil{
+		if err != nil {
 			fmt.Println(err.Error())
 			os.Exit(0)
 		}
 		max, err := strconv.ParseInt(in[1], 10, 64)
-		if err != nil{
+		if err != nil {
 			fmt.Println(err.Error())
 			os.Exit(0)
 		}
-		for i := 0; i < len(fib); i++ {
-			if fib[i] >= min && start == 0 {
-				start = i
+		for k, v := range fib {
+			if v >= min && start == 0 {
+				start = k
 			}
-			if fib[i] >= max {
-				stop = i-1
+			if v >= max {
+				stop = k
+			}
+			fmt.Println(k, v, start, stop, min, max)
+			if stop > start {
+				break
 			}
 		}
-		fmt.Println(start, stop)
 	}
-	return out
+	return fib[start:stop]
 }
 
 func checkError(err error) {
