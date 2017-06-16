@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"strconv"
 	"strings"
+	"strconv"
 )
 
 const path = "./context"
@@ -14,9 +14,7 @@ const path = "./context"
 func Task7() []int64 {
 	var file, err = os.OpenFile(path, os.O_RDWR, 0644)
 	checkError(err)
-	defer file.Close()
-
-	var text = make([]byte, 1024)
+	var text = make([]byte, 64)
 	for {
 		n, err := file.Read(text)
 		if err != io.EOF {
@@ -26,41 +24,63 @@ func Task7() []int64 {
 			break
 		}
 	}
+	var inS string
+	for k, v := range text {
+		if v == 0 {
+			inS = string(text[0:k])
+			break
+		}
+	}
+	inI := strings.Split(inS, " ")
+
 	fib := []int64{0, 1}
 	for i := 2; i < 93; i++ {
 		fib = append(fib, fib[i-1]+fib[i-2])
 	}
-
-	in := strings.Fields(string(text))
+	var min, max int
+	min, err = strconv.Atoi(inI[0])
+	checkError(err)
 
 	var start, stop int
-	if len(in) == 1 {
-		//len, err := strconv.Atoi(in[0])
-	} else {
-		min, err := strconv.ParseInt(in[0], 10, 64)
-		if err != nil {
-			fmt.Println(err.Error())
-			os.Exit(0)
-		}
-		max, err := strconv.ParseInt(in[1], 10, 64)
-		if err != nil {
-			fmt.Println(err.Error())
-			os.Exit(0)
-		}
+	if len(inI) == 1 {
 		for k, v := range fib {
-			if v >= min && start == 0 {
+			bit := getBitNumber(v)
+			if bit == int64(min) && start == 0 {
+				start = k
+			} else if bit > int64(min) {
+				stop = k
+				break
+			}
+		}
+	} else {
+		max, err = strconv.Atoi(inI[1])
+		checkError(err)
+		for k, v := range fib {
+			if v >= int64(min) && start == 0 {
 				start = k
 			}
-			if v >= max {
+			if v >= int64(max) {
 				stop = k
 			}
-			fmt.Println(k, v, start, stop, min, max)
+
 			if stop > start {
 				break
 			}
 		}
 	}
 	return fib[start:stop]
+}
+
+func getBitNumber(in int64) int64 {
+	var out int64
+	for {
+		in = in / 10
+		out++
+		if in == 0 {
+			break
+		}
+	}
+	return out
 }
 
 func checkError(err error) {
