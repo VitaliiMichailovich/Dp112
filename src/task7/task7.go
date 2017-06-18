@@ -1,5 +1,4 @@
-//package task7
-package main
+package task7
 
 import (
 	"fmt"
@@ -62,7 +61,6 @@ func Task7() []int64 {
 			if v >= int64(max) {
 				stop = k
 			}
-
 			if stop > start {
 				break
 			}
@@ -88,8 +86,4 @@ func checkError(err error) {
 		fmt.Println(err.Error())
 		os.Exit(0)
 	}
-}
-
-func main() {
-	fmt.Println(Task7())
 }
