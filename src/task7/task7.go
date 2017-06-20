@@ -13,7 +13,7 @@ const path = "./context"
 func Task7() []int64 {
 	var file, err = os.OpenFile(path, os.O_RDWR, 0644)
 	checkError(err)
-	var text = make([]byte, 64)
+	var text = make([]byte, 128)
 	for {
 		n, err := file.Read(text)
 		if err != io.EOF {

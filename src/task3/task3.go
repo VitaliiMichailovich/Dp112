@@ -2,16 +2,15 @@ package task3
 
 import (
 	"errors"
-	"fmt"
 	"math"
 	"sort"
 )
 
 type Triangle struct {
-	name string
-	a    float32
-	b    float32
-	c    float32
+	Name string
+	A    float32
+	B    float32
+	C    float32
 }
 
 type square struct {
@@ -19,16 +18,16 @@ type square struct {
 	sq   float64
 }
 
-func Task3(triangles ...Triangle) ([]string, error) {
+func Task3(triangles []Triangle) ([]string, error) {
 	var out []string
 	var squares []square
 	for _, tri := range triangles {
-		p := (tri.a + tri.b + tri.c) / 2
-		s := math.Sqrt(float64(p * (p - tri.a) * (p - tri.b) * (p - tri.c)))
+		p := (tri.A + tri.B + tri.C) / 2
+		s := math.Sqrt(float64(p * (p - tri.A) * (p - tri.B) * (p - tri.C)))
 		if math.IsNaN(s) {
-			return out, errors.New("\"" + tri.name + "\" is not a Triangle")
+			return out, errors.New("\"" + tri.Name + "\" is not a Triangle")
 		}
-		squares = append(squares, square{tri.name, s})
+		squares = append(squares, square{tri.Name, s})
 	}
 
 	sort.Slice(squares, func(i, j int) bool { return squares[i].sq < squares[j].sq })

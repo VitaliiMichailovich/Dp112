@@ -1,15 +1,15 @@
 package task6
 
 import (
-	"fmt"
 	"math"
 	"os"
 	"strconv"
+	"errors"
 )
 
 const path = "./task6.txt"
 
-func Task6(length, pow int) {
+func Task6(length, pow int) error {
 	var toFile string
 	start := math.Sqrt(float64(pow))
 	if float64(int(start)) < start {
@@ -24,24 +24,21 @@ func Task6(length, pow int) {
 	if _, err := os.Stat(path); os.IsExist(err) {
 		err := os.Remove(path)
 		if err != nil {
-			fmt.Println(err.Error())
-			os.Exit(0)
+			return errors.New(err.Error())
 		}
 	}
 	var file, err = os.Create(path)
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(0)
+		return errors.New(err.Error())
 	}
 	defer file.Close()
 	_, err = file.WriteString(toFile)
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(0)
+		return errors.New(err.Error())
 	}
 	err = file.Sync()
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(0)
+		return errors.New(err.Error())
 	}
+	return nil
 }

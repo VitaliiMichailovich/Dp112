@@ -1,27 +1,27 @@
 {
   "task1": {
     "test1": "12,7,*",
-    "test2": "5A,5,zzz8"
+    "test2": "5,5,zzz8"
   },
   "task2": {
-    "test1": "task2.Envelope{20.0, 30.0}, task2.Envelope{10.0, 5.0}",
-    "test2": "task2.Envelope{8.0, 7.0}, task2.Envelope{10.0, 6.0}"
+    "test1": "task2.Envelope{20.0,30.0},task2.Envelope{10.0,5.0}",
+    "test2": "task2.Envelope{8.0,7.0},task2.Envelope{10.0,6.0}"
   },
   "task3": {
-    "test1": "task3.Triangle{'j1', 10, 20, 725}, task3.Triangle{'j2', 60, 22.5, 77.8}, task3.Triangle{'j3', 22.2, 20.5, 30.8}, task3.Triangle{'j4', 1.1, 2.71, 3.4}, task3.Triangle{'j5', 0.18, 0.20, 0.30}, task3.Triangle{'j6', 270, 270, 3.0}, task3.Triangle{'j7', 1750, 1750.20, 10.30}",
-    "test2": "task3.Triangle{'j1', 10, 20, 725}, task3.Triangle{'j2', 60, 22.5, 77.8}"
+    "test1": "task3.Triangle{'j1',10,20,725},task3.Triangle{'j2',60,22.5,77.8},task3.Triangle{'j3',22.2,20.5,30.8},task3.Triangle{'j4',1.1,2.71,3.4},task3.Triangle{'j5',0.18,0.20,0.30},task3.Triangle{'j6',270,270,3.0},task3.Triangle{'j7',1750,1750.20,10.30}",
+    "test2": "task3.Triangle{'j1',18,20,725},task3.Triangle{'j2',60,62.5,77.8}"
   },
   "task4": {
-    "test1": "12345746437",
+    "test1": "123457468437",
     "test2": "778891198877"
   },
   "task5": {
-    "test1": "75319, 100952",
-    "test2": "905319, 900952"
+    "test1": "75319,100952",
+    "test2": "905319,900952"
   },
   "task6": {
-    "test1": "7, 777",
-    "test2": "7, 7777",
+    "test1": "7,777",
+    "test2": "7,7777",
     "test3": "4"
   },
   "task7": {
