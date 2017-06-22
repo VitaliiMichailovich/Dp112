@@ -243,6 +243,9 @@ func task2Validator(in string) (float32, float32, float32, float32, error) {
 			eee = append(eee, float32(ee))
 		}
 	}
+	if eee[0] <= 0 || eee[1] <= 0 || eee[2] <= 0 || eee[3] <= 0 {
+		return 0.0, 0.0, 0.0, 0.0, errors.New("Every size of Envelope must be > 0.")
+	}
 	return eee[0], eee[1], eee[2], eee[3], nil
 }
 

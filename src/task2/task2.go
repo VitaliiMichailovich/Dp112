@@ -6,9 +6,6 @@ type Envelope struct {
 
 func Task2(envA, envB Envelope) int {
 	out := 0
-	if envA.AB <= 0 || envA.CD <= 0 || envB.AB <= 0 || envB.CD <= 0 {
-		return out
-	}
 	if envA.CD > envA.AB {
 		envA.AB, envA.CD = envA.CD, envA.AB
 	}
