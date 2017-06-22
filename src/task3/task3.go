@@ -24,9 +24,6 @@ func Task3(triangles []Triangle) ([]string, error) {
 	for _, tri := range triangles {
 		p := (tri.A + tri.B + tri.C) / 2
 		s := math.Sqrt(float64(p * (p - tri.A) * (p - tri.B) * (p - tri.C)))
-		if math.IsNaN(s) {
-			return out, errors.New("\"" + tri.Name + "\" is not a Triangle")
-		}
 		squares = append(squares, square{tri.Name, s})
 	}
 
