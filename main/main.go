@@ -1,8 +1,8 @@
 package main
 
 import (
-	//"../src/task1"
-	//"../src/task2"
+	"../src/task1"
+	"../src/task2"
 	//"../src/task3"
 	//"../src/task4"
 	//"../src/task5"
@@ -13,13 +13,17 @@ import (
 )
 
 type task interface {
-	task1
-	task2
+	T1
+	T2
 }
 
-type task1 struct {
+type T1 struct {
 	w, h int32
 	s string
+}
+
+type T2 struct {
+	envA, envB task2.Envelope
 }
 
 const path = "./tasks.json"
