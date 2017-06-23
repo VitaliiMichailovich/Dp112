@@ -1,25 +1,34 @@
 package main
 
 import (
-	"../src/task1"
-	"../src/task2"
-	"../src/task3"
-	"../src/task4"
-	"../src/task5"
-	"../src/task6"
-	"../src/task7"
-	"encoding/json"
-	"errors"
+	//"../src/task1"
+	//"../src/task2"
+	//"../src/task3"
+	//"../src/task4"
+	//"../src/task5"
+	//"../src/task6"
+	//"../src/task7"
 	"fmt"
-	"io"
-	"os"
-	"sort"
-	"strconv"
-	"strings"
+	"math"
 )
+
+type task interface {
+	task1
+	task2
+}
+
+type task1 struct {
+	w, h int32
+	s string
+}
 
 const path = "./tasks.json"
 
+func main () {
+	fmt.Println(math.Pow(2, 2), path)
+}
+
+/*
 func main() {
 	var file, err = os.OpenFile(path, os.O_RDWR, 0644)
 	checkError(err)
@@ -272,3 +281,4 @@ func checkError(err error) {
 		fmt.Println(err.Error())
 	}
 }
+*/
