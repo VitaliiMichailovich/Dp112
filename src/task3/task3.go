@@ -1,7 +1,6 @@
 package task3
 
 import (
-	"errors"
 	"math"
 	"sort"
 )
@@ -18,7 +17,7 @@ type square struct {
 	sq   float64
 }
 
-func Task3(triangles []Triangle) ([]string, error) {
+func Task3(triangles []Triangle) ([]string) {
 	var out []string
 	var squares []square
 	for _, tri := range triangles {
@@ -31,5 +30,5 @@ func Task3(triangles []Triangle) ([]string, error) {
 	for _, a := range squares {
 		out = append(out, a.name)
 	}
-	return out, nil
+	return out
 }
