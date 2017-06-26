@@ -3,15 +3,21 @@ package main
 import (
 	"../src/task1"
 	"../src/task2"
-	//"../src/task3"
-	//"../src/task4"
-	//"../src/task5"
-	//"../src/task6"
-	//"../src/task7"
+	"os"
+	"io"
+	"encoding/json"
 	"fmt"
-	"math"
+	"strings"
+	"errors"
+	"strconv"
+	"sort"
+	"../src/task3"
+	"../src/task4"
+	"../src/task5"
+	"../src/task6"
+	"../src/task7"
 )
-
+/*
 type task interface {
 	T1
 	T2
@@ -25,14 +31,14 @@ type T1 struct {
 type T2 struct {
 	envA, envB task2.Envelope
 }
-
+*/
 const path = "./tasks.json"
-
+/*
 func main () {
 	fmt.Println(math.Pow(2, 2), path)
 }
+*/
 
-/*
 func main() {
 	var file, err = os.OpenFile(path, os.O_RDWR, 0644)
 	checkError(err)
@@ -285,4 +291,3 @@ func checkError(err error) {
 		fmt.Println(err.Error())
 	}
 }
-*/
