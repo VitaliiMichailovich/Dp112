@@ -1,8 +1,13 @@
 package main
 
 import (
-	"src/task1"
-	"src/task2"
+	"task1"
+	"task2"
+	"task3"
+	"task4"
+	"task5"
+	"task6"
+	"task7"
 	"os"
 	"io"
 	"encoding/json"
@@ -11,11 +16,6 @@ import (
 	"errors"
 	"strconv"
 	"sort"
-	"src/task3"
-	"src/task4"
-	"src/task5"
-	"src/task6"
-	"src/task7"
 )
 /*
 type task interface {
