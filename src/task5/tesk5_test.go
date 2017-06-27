@@ -10,20 +10,25 @@ var testCase = []struct{
 	{
 		75319,
 		100952,
-		Ticket{"easy", 1672, 810},
+		Ticket{"easy", 1672, 838},
 	},
 	{
 		905319,
 		909952,
-		Ticket{"easy", 312, 35},
+		Ticket{"easy", 312, 149},
+	},
+	{
+		0,
+		999999,
+		Ticket{"easy", 55252, 25081},
 	},
 }
 
 func TestTask5(t *testing.T) {
 	for _, tc := range testCase {
-		got := Task5(tc.min, tc.max)
+		got, _ := Task5(tc.min, tc.max)
 		if got != tc.want {
-			t.Fatalf("Task5(%d, %d) = %d, want %d",
+			t.Fatalf("Task5(%d, %d) = %v, want %v",
 				tc.min, tc.max, got, tc.want)
 		}
 	}

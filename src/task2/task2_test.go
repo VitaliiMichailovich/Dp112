@@ -38,15 +38,19 @@ var testCase = []struct {
 		1,
 	},
 	{
-		Envelope{0, 77.77},
+		Envelope{1, 77.77},
 		Envelope{77.78, 77.78},
-		0,
+		1,
 	},
 }
 
 func TestTask2(t *testing.T) {
 	for _, tc := range testCase {
-		got := Task2(tc.e1, tc.e2)
+		got, err := Task2(tc.e1, tc.e2)
+		if err != nil {
+			t.Fatalf("Task2(%f, %f) = %s, want %d",
+				tc.e1, tc.e2, err, tc.want)
+		}
 		if got != tc.want {
 			t.Fatalf("Task2(%f, %f) = %d, want %d",
 				tc.e1, tc.e2, got, tc.want)

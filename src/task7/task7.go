@@ -6,18 +6,34 @@ import (
 	"os"
 	"strings"
 	"strconv"
+	"errors"
 )
 
 const path = "./context"
 
-func Task7() []int64 {
+func getBitNumber(in int64) int64 {
+	var out int64
+	for {
+		in = in / 10
+		out++
+		if in == 0 {
+			break
+		}
+	}
+	return out
+}
+
+func doTask7() ([]int64, error) {
 	var file, err = os.OpenFile(path, os.O_RDWR, 0644)
-	checkError(err)
+	if err != nil {
+		return []int64{}, fmt.Errorf("Problem with opening 'context' file.\n%v", err)
+	}
+	defer file.Close()
 	var text = make([]byte, 128)
 	for {
 		n, err := file.Read(text)
-		if err != io.EOF {
-			checkError(err)
+		if err != nil && err != io.EOF {
+			return []int64{}, fmt.Errorf("Problem with opening 'context' file.\n%v", err)
 		}
 		if n == 0 {
 			break
@@ -38,8 +54,9 @@ func Task7() []int64 {
 	}
 	var min, max int
 	min, err = strconv.Atoi(inI[0])
-	checkError(err)
-
+	if err != nil {
+		return []int64{}, fmt.Errorf("Incorrect input. Expect int.\n%v", err)
+	}
 	var start, stop int
 	if len(inI) == 1 {
 		for k, v := range fib {
@@ -53,7 +70,9 @@ func Task7() []int64 {
 		}
 	} else {
 		max, err = strconv.Atoi(inI[1])
-		checkError(err)
+		if err != nil {
+			return []int64{}, errors.New("Incorrect input. Expect int and int.")
+		}
 		for k, v := range fib {
 			if v >= int64(min) && start == 0 {
 				start = k
@@ -66,24 +85,46 @@ func Task7() []int64 {
 			}
 		}
 	}
-	return fib[start:stop]
+	return fib[start:stop], nil
 }
 
-func getBitNumber(in int64) int64 {
-	var out int64
+func Task7() ([]int64, error) {
+	var file, err = os.OpenFile(path, os.O_RDWR, 0644)
+	if err != nil {
+		return []int64{}, errors.New("Problem with opening 'context' file.")
+	}
+	var text = make([]byte, 128)
 	for {
-		in = in / 10
-		out++
-		if in == 0 {
+		n, err := file.Read(text)
+		if err != nil && err != io.EOF {
+			return []int64{}, errors.New("Problem with reading 'context' file.")
+		}
+		if n == 0 {
 			break
 		}
 	}
-	return out
-}
-
-func checkError(err error) {
-	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(0)
+	var inS string
+	for k, v := range text {
+		if v == 0 {
+			inS = string(text[0:k])
+			break
+		}
 	}
+	inI := strings.Split(inS, " ")
+	_, err = strconv.Atoi(inI[0])
+	if err != nil {
+		return []int64{}, errors.New("Incorrect input. Expect int.")
+	}
+	if len(inI) == 2{
+		_, err = strconv.Atoi(inI[1])
+		if err != nil {
+			return []int64{}, errors.New("Incorrect input. Expect int and int.")
+		}
+	}
+	file.Close()
+	task7Result, err := doTask7()
+	if err != nil {
+		return task7Result, err
+	}
+	return task7Result, nil
 }

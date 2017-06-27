@@ -2,9 +2,9 @@ package task6
 
 import "testing"
 
-var testCase = []struct{
-	len int
-	pow int
+var testCase = []struct {
+	len  int
+	pow  int
 	want error
 }{
 	{

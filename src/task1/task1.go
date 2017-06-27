@@ -49,7 +49,7 @@ func Task1(widthInterface, heightInterface, symbolInterface interface{}) (string
 		return "", fmt.Errorf("Incorrect input of height: \"%s\". Must be int32.", symbolInterface)
 	}
 	// Check correct
-	if width <= 0 || height <= 0 || symbol == nil {
+	if width <= 0 || height <= 0 || symbol == "" {
 		return "", fmt.Errorf("Incorrect input. Width (%d) and height (%d) must be greater than 0 and symbol (%s) cant be nil.", width, height, symbol)
 	}
 	return doTask1(width, height, symbol), nil

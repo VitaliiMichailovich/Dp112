@@ -34,17 +34,23 @@ var testCase = []struct {
 		"#",
 		"# # # # \n # # # #\n# # # # \n # # # #\n# # # # \n # # # #\n# # # # \n # # # #",
 	},
+	/*
 	{
 		8,
 		-8,
 		"*",
-		"",
+		"Incorrect input. Width (8) and height (-8) must be greater than 0 and symbol (*) cant be nil.",
 	},
+	*/
 }
 
 func TestTask1(t *testing.T) {
 	for _, tc := range testCase {
-		got := Task1(tc.h, tc.w, tc.s)
+		got, err := Task1(tc.h, tc.w, tc.s)
+		if err != nil && err != tc.want{
+			t.Fatalf("Task1(%d, %d, %q) = %v, want %q",
+				tc.h, tc.w, tc.s, err, tc.want)
+		}
 		if got != tc.want {
 			t.Fatalf("Task1(%d, %d, %q) = %q, want %q",
 				tc.h, tc.w, tc.s, got, tc.want)
