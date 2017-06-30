@@ -11,6 +11,7 @@ import (
 	"task5"
 	"task6"
 	"task7"
+	"server"
 )
 const path = "./tasks.json"
 
@@ -31,6 +32,7 @@ type ChessParams struct {
 }
 
 func main() {
+	server.Server()
 	params := ParamsData{}
 	raw, err := ioutil.ReadFile(path)
 	if err != nil {
