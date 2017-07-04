@@ -6,11 +6,15 @@ import (
 	"sort"
 )
 
+type Params struct {
+	Triangles []Triangle `json:"triangles"`
+}
+
 type Triangle struct {
-	Name string	`json: "name"`
-	A    float32	`json: "a"`
-	B    float32	`json: "b"`
-	C    float32	`json: "c"`
+	Name string  `json: "name"`
+	A    float32 `json: "a"`
+	B    float32 `json: "b"`
+	C    float32 `json: "c"`
 }
 
 type Triangler interface {
@@ -37,7 +41,7 @@ func doTask3(triangles []Triangle) []string {
 	return out
 }
 
-func Task3(in []Triangle) ([]string, error) {
+func task3validator(in []Triangle) ([]string, error) {
 	var triangles []Triangle
 	for _, triangleTMP := range in {
 		if triangleTMP.A <= 0 || triangleTMP.B <= 0 || triangleTMP.C <= 0 {
@@ -66,4 +70,8 @@ func Task3(in []Triangle) ([]string, error) {
 		triangles = append(triangles, triangleTMP)
 	}
 	return doTask3(triangles), nil
+}
+
+func Task(param Params) ([]string, error) {
+	return task3validator(param.Triangles)
 }

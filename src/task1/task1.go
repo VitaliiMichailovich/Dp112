@@ -5,6 +5,12 @@ import (
 	"strconv"
 )
 
+type Params struct {
+	Width  int    `json:"width"`
+	Height int    `json:"height"`
+	Symbol string `json:"symbol"`
+}
+
 // Task "Chess board" if all inputs is correct.
 func doTask1(w int, h int, s string) string {
 	var out string
@@ -24,7 +30,7 @@ func doTask1(w int, h int, s string) string {
 }
 
 // Pre validator for task "Chess board"
-func Task1(widthInterface, heightInterface, symbolInterface interface{}) (string, error) {
+func task1Validator(widthInterface, heightInterface, symbolInterface interface{}) (string, error) {
 	// Check width
 	width, ok := widthInterface.(int)
 	if !ok {
@@ -53,4 +59,8 @@ func Task1(widthInterface, heightInterface, symbolInterface interface{}) (string
 		return "", fmt.Errorf("Incorrect input. Width (%d) and height (%d) must be greater than 0 and symbol (%s) cant be nil.", width, height, symbol)
 	}
 	return doTask1(width, height, symbol), nil
+}
+
+func Task(param Params) (string, error) {
+	return task1Validator(param.Width, param.Height, param.Symbol)
 }

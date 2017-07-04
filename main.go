@@ -11,30 +11,25 @@ import (
 	"task5"
 	"task6"
 	"task7"
-	"server"
+	//"server"
 )
 const path = "./tasks.json"
 
-type ParamsData struct {
-	Chess		ChessParams		`json:"task1"`
-	Envelopes	[]task2.Envelope	`json:"task2"`
-	Triangles	[]task3.Triangle	`json:"task3"`
-	Palindrom	int64			`json:"task4"`
-	Tickets		[]int			`json:"task5"`
-	Sequence	[]int			`json:"task6"`
-	Fibonacci	string			`json:"task7"`
-}
-
-type ChessParams struct {
-	Width	int	`json:"width"`
-	Height	int	`json:"height"`
-	Symbol	string	`json:"symbol"`
+type Params struct {
+	Params1	[]task1.Params	`json:"task1"`
+	Params2	[]task2.Params	`json:"task2"`
+	Params3	[]task3.Params	`json:"task3"`
+	Params4	[]task4.Params	`json:"task4"`
+	Params5	[]task5.Params	`json:"task5"`
+	Params6	[]task6.Params	`json:"task6"`
+	Params7	[]task7.Params	`json:"task7"`
 }
 
 func main() {
-	server.Server()
-	params := ParamsData{}
+	//server.Server()
+	params := Params{}
 	raw, err := ioutil.ReadFile(path)
+
 	if err != nil {
 		fmt.Println("Can't read input file.")
 	}
@@ -42,18 +37,32 @@ func main() {
 	if err != nil {
 		fmt.Println("Can't parse json.")
 	}
-	fmt.Println("********** Task1: **********")
-	fmt.Println(task1.Task1(params.Chess.Width, params.Chess.Height, params.Chess.Symbol))
-	fmt.Println("********** Task2: **********")
-	fmt.Println(task2.Task2(params.Envelopes[0], params.Envelopes[1]))
-	fmt.Println("********** Task3: **********")
-	fmt.Println(task3.Task3(params.Triangles))
-	fmt.Println("********** Task4: **********")
-	fmt.Println(task4.Task4(params.Palindrom))
-	fmt.Println("********** Task5: **********")
-	fmt.Println(task5.Task5(params.Tickets[0], params.Tickets[1]))
-	fmt.Println("********** Task6: **********")
-	fmt.Println(task6.Task6(params.Sequence[0], params.Sequence[1]))
-	fmt.Println("********** Task7: **********")
-	fmt.Println(task7.Task7())
+	fmt.Println("********** Task 1: **********")
+	for _, param := range params.Params1 {
+		fmt.Println(task1.Task(param))
+	}
+	fmt.Println("********** Task 2: **********")
+	for _, param := range params.Params2 {
+		fmt.Println(task2.Task(param))
+	}
+	fmt.Println("********** Task 3: **********")
+	for _, param := range params.Params3 {
+		fmt.Println(task3.Task(param))
+	}
+	fmt.Println("********** Task 4: **********")
+	for _, param := range params.Params4 {
+		fmt.Println(task4.Task(param))
+	}
+	fmt.Println("********** Task 5: **********")
+	for _, param := range params.Params5 {
+		fmt.Println(task5.Task(param))
+	}
+	fmt.Println("********** Task 6: **********")
+	for _, param := range params.Params6 {
+		fmt.Println(task6.Task(param))
+	}
+	fmt.Println("********** Task 7: **********")
+	for _, param := range params.Params7 {
+		fmt.Println(task7.Task(param))
+	}
 }

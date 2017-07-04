@@ -71,7 +71,7 @@ var testCase = []struct {
 
 func TestTask1(t *testing.T) {
 	for _, tc := range testCase {
-		got, err := Task1(tc.h, tc.w, tc.s)
+		got, err := task1Validator(tc.h, tc.w, tc.s)
 		if err != nil && err.Error() != tc.werr {
 			t.Fatalf("Task1(%d, %d, %q) got error \n%v\nwant \n%v",
 				tc.h, tc.w, tc.s, err, tc.werr)
@@ -86,7 +86,7 @@ func TestTask1(t *testing.T) {
 func BenchmarkTask1(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		for _, tc := range testCase {
-			Task1(tc.h, tc.w, tc.s)
+			task1Validator(tc.h, tc.w, tc.s)
 		}
 	}
 }

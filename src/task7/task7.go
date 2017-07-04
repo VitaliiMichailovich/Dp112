@@ -9,7 +9,9 @@ import (
 	"strings"
 )
 
-const path = "./context"
+type Params struct {
+	Context string `json:"context"`
+}
 
 func getBitNumber(in int64) int64 {
 	var out int64
@@ -23,7 +25,7 @@ func getBitNumber(in int64) int64 {
 	return out
 }
 
-func doTask7() ([]int64, error) {
+func doTask7(path string) ([]int64, error) {
 	var file, err = os.OpenFile(path, os.O_RDWR, 0644)
 	if err != nil {
 		return []int64{}, fmt.Errorf("Problem with opening 'context' file.\n%v", err)
@@ -88,7 +90,7 @@ func doTask7() ([]int64, error) {
 	return fib[start:stop], nil
 }
 
-func Task7() ([]int64, error) {
+func task7validator(path string) ([]int64, error) {
 	var file, err = os.OpenFile(path, os.O_RDWR, 0644)
 	if err != nil {
 		return []int64{}, errors.New("Problem with opening 'context' file.")
@@ -122,9 +124,13 @@ func Task7() ([]int64, error) {
 		}
 	}
 	file.Close()
-	task7Result, err := doTask7()
+	task7Result, err := doTask7(path)
 	if err != nil {
 		return task7Result, err
 	}
 	return task7Result, nil
+}
+
+func Task(param Params) ([]int64, error) {
+	return task7validator(param.Context)
 }

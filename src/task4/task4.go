@@ -7,6 +7,10 @@ import (
 	"strconv"
 )
 
+type Params struct {
+	Number int64 `json:"number"`
+}
+
 func palindromeChecker(in []int64) bool {
 	var out bool = true
 	var f int = len(in) / 2
@@ -51,7 +55,7 @@ func doTask4(in int64) (int64, error) {
 	return out, err
 }
 
-func Task4(in interface{}) (int64, error) {
+func task4validator(in interface{}) (int64, error) {
 	number, ok := in.(int64)
 	if !ok {
 		numberReturn, err := strconv.ParseInt(in.(string), 10, 64)
@@ -68,4 +72,8 @@ func Task4(in interface{}) (int64, error) {
 		return 0, err
 	}
 	return returnTask4, nil
+}
+
+func Task(param Params) (int64, error) {
+	return task4validator(param.Number)
 }

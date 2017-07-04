@@ -2,8 +2,14 @@ package task2
 
 import "fmt"
 
+type Params struct {
+	Envelope1 Envelope `json:"envelope1"`
+	Envelope2 Envelope `json:"envelope2"`
+}
+
 type Envelope struct {
-	AB, CD float32
+	AB float32 `json:"ab"`
+	CD float32 `json:"cd"`
 }
 
 type Enveloper interface {
@@ -29,7 +35,7 @@ func doTask2(envA, envB Envelope) int {
 }
 
 // Task "Envelope analysis" pre validator. If all OK: run doTask2
-func Task2(envA, envB interface{}) (int, error) {
+func task2validator(envA, envB interface{}) (int, error) {
 	// check envelope 1
 	env1, ok := envA.(Envelope)
 	if !ok {
@@ -47,4 +53,8 @@ func Task2(envA, envB interface{}) (int, error) {
 		return 0, fmt.Errorf("Incorrect EnvelopeB size. Every size of envelope \"%v\" must be > 0.", env2)
 	}
 	return doTask2(env1, env2), nil
+}
+
+func Task (param Params) (int, error){
+	return task2validator(param.Envelope1, param.Envelope2)
 }

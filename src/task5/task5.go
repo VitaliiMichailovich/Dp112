@@ -5,6 +5,11 @@ import (
 	"strconv"
 )
 
+type Params struct {
+	Min	int	`json:"min"`
+	Max	int	`json:"max"`
+}
+
 type Ticket struct {
 	method    string
 	easy      int
@@ -53,7 +58,7 @@ func doTask5(min, max int) Ticket {
 	return out
 }
 
-func Task5(min, max interface{}) (Ticket, error) {
+func task5validator(min, max interface{}) (Ticket, error) {
 	minInt, ok := min.(int)
 	if !ok {
 		minI, err := strconv.Atoi(min.(string))
@@ -80,4 +85,8 @@ func Task5(min, max interface{}) (Ticket, error) {
 		return Ticket{}, fmt.Errorf("Incorrect input. To big tickets (%v, %v). Ticket vust be < 999999.", min, max)
 	}
 	return doTask5(minInt, maxInt), nil
+}
+
+func Task (param Params) (Ticket, error) {
+	return task5validator(param.Min, param.Max)
 }
