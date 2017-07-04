@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	/*
 	"task1"
 	"task2"
 	"task3"
@@ -11,7 +12,15 @@ import (
 	"task5"
 	"task6"
 	"task7"
-	//"server"
+	"server"
+	*/
+	"github.com/VitaliiMichailovich/DP112/src/task1"
+	"github.com/VitaliiMichailovich/DP112/src/task2"
+	"github.com/VitaliiMichailovich/DP112/src/task3"
+	"github.com/VitaliiMichailovich/DP112/src/task4"
+	"github.com/VitaliiMichailovich/DP112/src/task5"
+	"github.com/VitaliiMichailovich/DP112/src/task6"
+	"github.com/VitaliiMichailovich/DP112/src/task7"
 )
 const path = "./tasks.json"
 
