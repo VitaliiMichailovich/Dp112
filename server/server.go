@@ -1,16 +1,16 @@
 package server
 
 import (
+	"github.com/VitaliiMichailovich/DP112/task1"
+	"github.com/VitaliiMichailovich/DP112/task2"
+	"github.com/VitaliiMichailovich/DP112/task3"
+	"github.com/VitaliiMichailovich/DP112/task4"
+	"github.com/VitaliiMichailovich/DP112/task5"
+	"github.com/VitaliiMichailovich/DP112/task6"
+	"github.com/VitaliiMichailovich/DP112/task7"
 	"net/http"
 	"path/filepath"
 	"text/template"
-	"github.com/VitaliiMichailovich/DP112/src/task1"
-	"github.com/VitaliiMichailovich/DP112/src/task2"
-	"github.com/VitaliiMichailovich/DP112/src/task3"
-	"github.com/VitaliiMichailovich/DP112/src/task4"
-	"github.com/VitaliiMichailovich/DP112/src/task5"
-	"github.com/VitaliiMichailovich/DP112/src/task6"
-	"github.com/VitaliiMichailovich/DP112/src/task7"
 	"encoding/json"
 	"fmt"
 	"strconv"
@@ -66,10 +66,27 @@ func HandleTask2(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(strconv.Itoa(resp2)))
 }
 
+func HandleTasks(w http.ResponseWriter, r *http.Request) {
+	var err error
+	defer r.Body.Close()
+	decoder := json.NewDecoder(r.Body)
+	t2 := Params{}
+	err = decoder.Decode(&t2)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	defer r.Body.Close()
+	resp2, err := task2.Task(t2.Params2)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+	}
+	w.Write([]byte(strconv.Itoa(resp2)))
+}
+
 func Server() {
 	fileServer := http.FileServer(http.Dir("static"))
 	http.Handle("/", fileServer)
-
+	http.HandleFunc("/tasks", HandleTasks)
 	http.HandleFunc("/task/1", HandleTask1)
 	http.HandleFunc("/task/2", HandleTask2)
 	http.ListenAndServe(":8089", nil)

@@ -1,14 +1,14 @@
 package main
 
 import (
-	"github.com/VitaliiMichailovich/DP112/src/server"
+	"github.com/VitaliiMichailovich/DP112/server"
 )
+
 const path = "./tasks.json"
 
 func main() {
 	server.Server()
-
-/*
+	/*
 	params := Params{}
 	raw, err := ioutil.ReadFile(path)
 	if err != nil {
@@ -32,5 +32,5 @@ func main() {
 	fmt.Println(task6.Task(params.Params6))
 	fmt.Println("********** Task 7: **********")
 	fmt.Println(task7.Task(params.Params7))
-*/
+	*/
 }
