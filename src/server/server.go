@@ -13,16 +13,17 @@ import (
 	"github.com/VitaliiMichailovich/DP112/src/task7"
 	"encoding/json"
 	"fmt"
+	"strconv"
 )
 
 type Params struct {
-	Params1	[]task1.Params	`json:"task1"`
-	Params2	[]task2.Params	`json:"task2"`
-	Params3	[]task3.Params	`json:"task3"`
-	Params4	[]task4.Params	`json:"task4"`
-	Params5	[]task5.Params	`json:"task5"`
-	Params6	[]task6.Params	`json:"task6"`
-	Params7	[]task7.Params	`json:"task7"`
+	Params1	task1.Params	`json:"task1"`
+	Params2	task2.Params	`json:"task2"`
+	Params3	task3.Params	`json:"task3"`
+	Params4	task4.Params	`json:"task4"`
+	Params5	task5.Params	`json:"task5"`
+	Params6	task6.Params	`json:"task6"`
+	Params7	task7.Params	`json:"task7"`
 }
 
 func IndexPage(w http.ResponseWriter, r *http.Request) {
@@ -33,26 +34,36 @@ func IndexPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleTask1(w http.ResponseWriter, r *http.Request) {
+	var err error
+	defer r.Body.Close()
 	decoder := json.NewDecoder(r.Body)
-	t := Params{}
-	err := decoder.Decode(&t)
-	fmt.Println(t)
+	t1 := Params{}
+	err = decoder.Decode(&t1)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	resp1, err := task1.Task(t1.Params1)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+	}
+	w.Write([]byte(resp1))
+}
+
+func HandleTask2(w http.ResponseWriter, r *http.Request) {
+	var err error
+	defer r.Body.Close()
+	decoder := json.NewDecoder(r.Body)
+	t2 := Params{}
+	err = decoder.Decode(&t2)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 	defer r.Body.Close()
-	for _, param := range t.Params1 {
-		resp, err := task1.Task(param)
-		if err != nil {
-			w.Write([]byte(err.Error()))
-		}
-		w.Write([]byte(resp))
+	resp2, err := task2.Task(t2.Params2)
+	if err != nil {
+		w.Write([]byte(err.Error()))
 	}
-}
-
-func HandleTask2(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
-	w.Write([]byte("<h1>Task2</h1>"))
+	w.Write([]byte(strconv.Itoa(resp2)))
 }
 
 func Server() {
