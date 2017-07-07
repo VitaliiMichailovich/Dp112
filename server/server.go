@@ -1,15 +1,15 @@
 package server
 
 import (
-	"net/http"
-	"strings"
-	"io/ioutil"
-	"strconv"
-	"github.com/VitaliiMichailovich/DP112/taskregister"
 	"encoding/json"
+	"fmt"
+	"github.com/VitaliiMichailovich/DP112/taskregister"
+	"io/ioutil"
+	"net/http"
+	"strconv"
 )
 
-type WriteBack struct{
+type WriteBack struct {
 	Resp, Reason string
 }
 
@@ -22,56 +22,67 @@ type WriteBack struct{
 
 func HandleTask(w http.ResponseWriter, r *http.Request) {
 	var params map[string]json.RawMessage
-	taskIdInURI := strings.Split(r.RequestURI, "/")
+	//taskIdInURI := strings.Split(r.RequestURI, "/")
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte(err.Error()))
 	}
 	err = json.Unmarshal(body, &params)
-	var taskId int
-	for _, val := range taskIdInURI {
-		taskId, err = strconv.Atoi(val)
-		if err == nil{
-			break
+	//var taskId int
+	//for _, val := range taskIdInURI {
+	//	taskId, err = strconv.Atoi(val)
+	//	if err == nil{
+	//		break
+	//	}
+	//}
+	var value []byte
+	var task int
+	for t, v := range params {
+		value = v
+		task, err = strconv.Atoi(t[4:])
+		if err != nil {
+			fmt.Sprintf("Sorry, but I can't find a task number in file (%v).", t)
 		}
 	}
-	var value []byte
-	for _, v := range params {
-		value = v
-	}
-	result, err := taskregister.RunTask(taskId, value)
+	result, err := taskregister.RunTask(task, value)
 	errString := ""
 	if err != nil {
 		errString = string(err.Error())
 	}
-
 	back, _ := json.Marshal(WriteBack{
-		Resp: result,
+		Resp:   result,
 		Reason: errString,
 	})
 	w.Write(back)
 }
 
 func HandleTasks(w http.ResponseWriter, r *http.Request) {
-	//var err error
-	//defer r.Body.Close()
-	//decoder := json.NewDecoder(r.Body)
-	//t2 := Params{}
-	//err = decoder.Decode(&t2)
-	//if err != nil {
-	//	fmt.Println(err.Error())
-	//}
-	//defer r.Body.Close()
-	//resp2, err := task2.Task(t2.Params2)
-	//if err != nil {
-	//	w.Write([]byte(err.Error()))
-	//}
-	w.Write([]byte("BBB"))
+	var params map[string]json.RawMessage
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
+	}
+	err = json.Unmarshal(body, &params)
+	var write []WriteBack
+	for t, v := range params {
+		task, err := strconv.Atoi(t[4:])
+		if err != nil {
+			fmt.Sprintf("Sorry, but I can't find a task number in file (%v).", t)
+		}
+		result, err := taskregister.RunTask(task, v)
+		errString := ""
+		if err != nil {
+			errString = string(err.Error())
+		}
+		write = append(write, WriteBack{result,errString})
+	}
+	back, _ := json.Marshal(write)
+	w.Write(back)
 }
 
 func Server() {
-
 	fileServer := http.FileServer(http.Dir("static"))
 	http.Handle("/", fileServer)
 	http.HandleFunc("/tasks", HandleTasks)
