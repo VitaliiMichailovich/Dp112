@@ -1,6 +1,11 @@
 package task2
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+	"github.com/VitaliiMichailovich/DP112/taskregister"
+	"strconv"
+)
 
 type Params struct {
 	Envelope1 Envelope `json:"envelope1"`
@@ -16,15 +21,24 @@ type Enveloper interface {
 	Envelope()
 }
 
+func Task(bytesParams []byte) (string, error) {
+	var param Params
+	err := json.Unmarshal([]byte(bytesParams), &param)
+	if err != nil {
+		return "", err
+	}
+	ret, err := task2validator(param.Envelope1, param.Envelope2)
+	return strconv.Itoa(ret), err
+}
+
+
+func init() {
+	taskregister.InitializeTask(2, Task)
+}
+
 // Task "Envelope analysis" if all inputs is correct.
 func doTask2(envA, envB Envelope) int {
 	out := 0
-	if envA.CD > envA.AB {
-		envA.AB, envA.CD = envA.CD, envA.AB
-	}
-	if envB.CD > envB.AB {
-		envB.AB, envB.CD = envB.CD, envB.AB
-	}
 	if (envA.AB > envB.AB) && (envA.CD > envB.CD) {
 		out = 2
 	}
@@ -52,9 +66,14 @@ func task2validator(envA, envB interface{}) (int, error) {
 	if env2.AB <= 0 || env2.CD <= 0 {
 		return 0, fmt.Errorf("Incorrect EnvelopeB size. Every size of envelope \"%v\" must be > 0.", env2)
 	}
+	if env1.CD > env1.AB {
+		env1.AB, env1.CD = env1.CD, env1.AB
+	}
+	if env2.CD > env2.AB {
+		env2.AB, env2.CD = env2.CD, env2.AB
+	}
+	if (env1.AB == env2.AB) || (env1.CD == env2.CD) {
+		return 0, fmt.Errorf("Some of envelope sizes are equal. Check Input parametres. env1: %v; env2: %v", envA, envB)
+	}
 	return doTask2(env1, env2), nil
-}
-
-func Task (param Params) (int, error){
-	return task2validator(param.Envelope1, param.Envelope2)
 }

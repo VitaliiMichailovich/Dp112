@@ -1,10 +1,12 @@
 package main
 
 import (
+	_ "github.com/VitaliiMichailovich/DP112/task1"
+	_ "github.com/VitaliiMichailovich/DP112/task2"
 	"github.com/VitaliiMichailovich/DP112/server"
 )
 
-const path = "./tasks.json"
+//const path = "./tasks.json"
 
 func main() {
 	server.Server()

@@ -3,12 +3,27 @@ package task1
 import (
 	"fmt"
 	"strconv"
+	"github.com/VitaliiMichailovich/DP112/taskregister"
+	"encoding/json"
 )
 
 type Params struct {
 	Width  int    `json:"width"`
 	Height int    `json:"height"`
 	Symbol string `json:"symbol"`
+}
+
+func Task(bytesParams []byte) (string, error) {
+	var param Params
+	err := json.Unmarshal(bytesParams, &param)
+	if err != nil {
+		return "", err
+	}
+	return task1Validator(param.Width, param.Height, param.Symbol)
+}
+
+func init() {
+	taskregister.InitializeTask(1, Task)
 }
 
 // Task "Chess board" if all inputs is correct.
@@ -59,8 +74,4 @@ func task1Validator(widthInterface, heightInterface, symbolInterface interface{}
 		return "", fmt.Errorf("Incorrect input. Width (%d) and height (%d) must be greater than 0 and symbol (%s) cant be nil.", width, height, symbol)
 	}
 	return doTask1(width, height, symbol), nil
-}
-
-func Task(param Params) (string, error) {
-	return task1Validator(param.Width, param.Height, param.Symbol)
 }
