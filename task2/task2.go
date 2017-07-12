@@ -24,7 +24,6 @@ type Enveloper interface {
 func Task(bytesParams []byte) (string, error) {
 	var param [2]Envelope
 	err := json.Unmarshal([]byte(bytesParams), &param)
-	fmt.Println(param, string(bytesParams))
 	if err != nil {
 		return "", err
 	}
