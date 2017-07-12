@@ -51,7 +51,7 @@ func task1Validator(widthInterface, heightInterface, symbolInterface interface{}
 	if !ok {
 		widthS, err := strconv.Atoi(widthInterface.(string))
 		if err != nil {
-			return "", fmt.Errorf("Incorrect input of width: \"%s\". Must be int32.", widthInterface)
+			return "", fmt.Errorf("Incorrect input of width: \"%v\". Must be int32.", widthInterface)
 		}
 		width = widthS
 	}
@@ -60,14 +60,14 @@ func task1Validator(widthInterface, heightInterface, symbolInterface interface{}
 	if !ok {
 		heightS, err := strconv.Atoi(heightInterface.(string))
 		if err != nil {
-			return "", fmt.Errorf("Incorrect input of height: \"%s\". Must be int32.", heightInterface)
+			return "", fmt.Errorf("Incorrect input of height: \"%v\". Must be int32.", heightInterface)
 		}
 		height = heightS
 	}
 	// Check string
 	symbol, ok := symbolInterface.(string)
 	if !ok {
-		return "", fmt.Errorf("Incorrect input of height: \"%s\". Must be int32.", symbolInterface)
+		return "", fmt.Errorf("Incorrect input of height: \"%v\". Must be string.", symbolInterface)
 	}
 	// Check correct
 	if width <= 0 || height <= 0 || symbol == "" {

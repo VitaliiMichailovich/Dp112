@@ -1,85 +1,111 @@
 package task2
 
-import "testing"
+import (
+	"testing"
+	"encoding/json"
+	"errors"
+)
 
-var testCase = []struct {
+var testCaseTask = []struct {
 	e1   Envelope
 	e2   Envelope
-	want int
-	werr string
+	want string
+	werr error
 }{
 	{
 		Envelope{15.0, 20.0},
 		Envelope{14.0, 18.0},
-		2,
-		"",
+		"2",
+		nil,
 	},
 	{
 		Envelope{13.0, 20.0},
 		Envelope{14.0, 18.0},
-		0,
-		"",
+		"0",
+		nil,
 	},
 	{
 		Envelope{1.0, 1.0},
 		Envelope{2.0, 2.0},
-		1,
-		"",
+		"1",
+		nil,
 	},
 	{
 		Envelope{1.1, 1.1},
 		Envelope{1.2, 1.2},
-		1,
-		"",
+		"1",
+		nil,
 	},
 	{
 		Envelope{2.9, 2.9},
 		Envelope{3.0, 3.0},
-		1,
-		"",
+		"1",
+		nil,
 	},
 	{
 		Envelope{77.77, 77.77},
 		Envelope{77.78, 77.78},
-		1,
-		"",
+		"1",
+		nil,
 	},
 	{
 		Envelope{1, 77.77},
 		Envelope{77.78, 77.78},
-		1,
-		"",
+		"1",
+		nil,
 	},
 	{
 		Envelope{0, 77.77},
 		Envelope{77.78, 77.78},
-		0,
-		"Incorrect EnvelopeA size. Every size of envelope \"{0 77.77}\" must be > 0.",
+		"0",
+		errors.New("Incorrect EnvelopeA size. Every size of envelope \"{0 77.77}\" must be > 0."),
 	},
 	{
 		Envelope{77.77, 0},
 		Envelope{77.78, 77.78},
-		0,
-		"Incorrect EnvelopeA size. Every size of envelope \"{77.77 0}\" must be > 0.",
+		"0",
+		errors.New("Incorrect EnvelopeA size. Every size of envelope \"{77.77 0}\" must be > 0."),
+	},
+	{
+		Envelope{-77.77, -77.77},
+		Envelope{77.78, 77.78},
+		"0",
+		errors.New("Incorrect EnvelopeA size. Every size of envelope \"{-77.77 -77.77}\" must be > 0."),
 	},
 	{
 		Envelope{77.77, 77.77},
 		Envelope{0, 77.78},
-		0,
-		"Incorrect EnvelopeB size. Every size of envelope \"{0 77.78}\" must be > 0.",
+		"0",
+		errors.New("Incorrect EnvelopeB size. Every size of envelope \"{0 77.78}\" must be > 0."),
 	},
 	{
 		Envelope{77.77, 77.77},
 		Envelope{77.78, 0},
-		0,
-		"Incorrect EnvelopeB size. Every size of envelope \"{77.78 0}\" must be > 0.",
+		"0",
+		errors.New("Incorrect EnvelopeB size. Every size of envelope \"{77.78 0}\" must be > 0."),
+	},
+	{
+		Envelope{77.77, 77.77},
+		Envelope{77.78, -5},
+		"0",
+		errors.New("Incorrect EnvelopeB size. Every size of envelope \"{77.78 -5}\" must be > 0."),
+	},
+	{
+		Envelope{77.77, 77.77},
+		Envelope{77.77, 77.77},
+		"0",
+		errors.New("Some of envelope sizes are equal. Check Input parametres. env1: {77.77 77.77}; env2: {77.77 77.77}"),
 	},
 }
 
-func TestTask2(t *testing.T) {
-	for _, tc := range testCase {
-		got, err := Task2(tc.e1, tc.e2)
-		if err != nil && err.Error() != tc.werr {
+func TestTask(t *testing.T) {
+	for _, tc := range testCaseTask {
+		param, _ := json.Marshal(Params{
+			Envelope1: tc.e1,
+			Envelope2: tc.e2,
+		})
+		got, err := Task(param)
+		if err != nil && err.Error() != tc.werr.Error() {
 			t.Fatalf("Task2(%f, %f) got error \n%v\nwant \n%v",
 				tc.e1, tc.e2, err, tc.werr)
 		}
@@ -90,10 +116,14 @@ func TestTask2(t *testing.T) {
 	}
 }
 
-func BenchmarkTask2(b *testing.B) {
+func BenchmarkTask(b *testing.B) {
 	for i := 0; i <= b.N; i++ {
-		for _, tc := range testCase {
-			Task2(tc.e1, tc.e2)
+		for _, tc := range testCaseTask {
+			param, _ := json.Marshal(Params{
+				Envelope1: tc.e1,
+				Envelope2: tc.e2,
+			})
+			Task(param)
 		}
 	}
 }
