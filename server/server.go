@@ -4,14 +4,17 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/VitaliiMichailovich/DP112/taskregister"
+	"html/template"
 	"io/ioutil"
 	"net/http"
 	"strconv"
-	"html/template"
+	"strings"
 )
 
 type WriteBack struct {
-	Resp, Reason string
+	Task   int    `json:"task"`
+	Resp   string `json:"resp"`
+	Reason string `json:"reason"`
 }
 
 //func IndexPage(w http.ResponseWriter, r *http.Request) {
@@ -22,36 +25,52 @@ type WriteBack struct {
 //}
 
 func HandleTask(w http.ResponseWriter, r *http.Request) {
-	var params map[string]json.RawMessage
-	//taskIdInURI := strings.Split(r.RequestURI, "/")
+	//var params map[string]json.RawMessage
+	taskIdInURI := strings.Split(r.RequestURI, "/")
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte(err.Error()))
 	}
-	err = json.Unmarshal(body, &params)
-	//var taskId int
-	//for _, val := range taskIdInURI {
-	//	taskId, err = strconv.Atoi(val)
-	//	if err == nil{
-	//		break
-	//	}
-	//}
-	var value []byte
-	var task int
-	for t, v := range params {
-		value = v
-		task, err = strconv.Atoi(t[4:])
-		if err != nil {
-			fmt.Sprintf("Sorry, but I can't find a task number in file (%v).", t)
+	//err = json.Unmarshal(body, &params)
+	var taskId int
+	for _, val := range taskIdInURI {
+		taskId, err = strconv.Atoi(val)
+		if err == nil {
+			break
+		} else if len(val) > 4 {
+			taskId, err = strconv.Atoi(val[4:])
+			if err == nil {
+				break
+			}
 		}
 	}
-	result, err := taskregister.RunTask(task, value)
+	if taskId == 0 {
+		back, _ := json.Marshal(WriteBack{
+			Task:   0,
+			Resp:   "",
+			Reason: "I did not find any number of task in link.",
+		})
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(back)
+	}
+	//var value []byte
+	//var task int
+	//for t, v := range params {
+	//	value = v
+	//	fmt.Println(string(value), string(params))
+	//	task, err = strconv.Atoi(t[4:])
+	//	if err != nil {
+	//		fmt.Sprintf("Sorry, but I can't find a task number in file (%v).", t)
+	//	}
+	//}
+	result, err := taskregister.RunTask(taskId, body)
 	errString := ""
 	if err != nil {
 		errString = string(err.Error())
 	}
 	back, _ := json.Marshal(WriteBack{
+		Task: taskId,
 		Resp:   result,
 		Reason: errString,
 	})
@@ -78,7 +97,7 @@ func HandleTasks(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			errString = string(err.Error())
 		}
-		write = append(write, WriteBack{result,errString})
+		write = append(write, WriteBack{task, result, errString})
 	}
 	back, _ := json.Marshal(write)
 	w.Header().Set("Content-Type", "application/json")
@@ -86,7 +105,7 @@ func HandleTasks(w http.ResponseWriter, r *http.Request) {
 }
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles("client/app/templates/tasks.html")
+	t, err := template.ParseFiles("templates/index.html")
 	if err != nil {
 		fmt.Fprintf(w, err.Error())
 		return

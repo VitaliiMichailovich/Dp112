@@ -13,8 +13,8 @@ type Params struct {
 }
 
 type Envelope struct {
-	AB float32 `json:"ab"`
-	CD float32 `json:"cd"`
+	AB float32 `json:"width"`
+	CD float32 `json:"height"`
 }
 
 type Enveloper interface {
@@ -22,12 +22,13 @@ type Enveloper interface {
 }
 
 func Task(bytesParams []byte) (string, error) {
-	var param Params
+	var param [2]Envelope
 	err := json.Unmarshal([]byte(bytesParams), &param)
+	fmt.Println(param, string(bytesParams))
 	if err != nil {
 		return "", err
 	}
-	ret, err := task2validator(param.Envelope1, param.Envelope2)
+	ret, err := task2validator(Envelope{param[0].AB, param[0].CD}, Envelope{param[1].AB, param[1].CD})
 	return strconv.Itoa(ret), err
 }
 
