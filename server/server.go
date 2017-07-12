@@ -55,6 +55,7 @@ func HandleTask(w http.ResponseWriter, r *http.Request) {
 		Resp:   result,
 		Reason: errString,
 	})
+	w.Header().Set("Content-Type", "application/json")
 	w.Write(back)
 }
 
@@ -80,6 +81,7 @@ func HandleTasks(w http.ResponseWriter, r *http.Request) {
 		write = append(write, WriteBack{result,errString})
 	}
 	back, _ := json.Marshal(write)
+	w.Header().Set("Content-Type", "application/json")
 	w.Write(back)
 }
 
