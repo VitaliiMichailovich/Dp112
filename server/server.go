@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"html/template"
 )
 
 type WriteBack struct {
@@ -82,9 +83,19 @@ func HandleTasks(w http.ResponseWriter, r *http.Request) {
 	w.Write(back)
 }
 
+func IndexHandler(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles("client/app/templates/tasks.html")
+	if err != nil {
+		fmt.Fprintf(w, err.Error())
+		return
+	}
+
+	t.ExecuteTemplate(w, "index", nil)
+}
+
 func Server() {
-	fileServer := http.FileServer(http.Dir("static"))
-	http.Handle("/", fileServer)
+	http.Handle("/client/", http.StripPrefix("/client/", http.FileServer(http.Dir("./client/"))))
+	http.HandleFunc("/", IndexHandler)
 	http.HandleFunc("/tasks", HandleTasks)
 	http.HandleFunc("/task/", HandleTask)
 	http.ListenAndServe(":8089", nil)
