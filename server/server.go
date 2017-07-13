@@ -88,7 +88,7 @@ func HandleTasks(w http.ResponseWriter, r *http.Request) {
 	err = json.Unmarshal(body, &params)
 	var write []WriteBack
 	for t, v := range params {
-		task, err := strconv.Atoi(t[4:])
+		task, err := strconv.Atoi(t)
 		if err != nil {
 			fmt.Sprintf("Sorry, but I can't find a task number in file (%v).", t)
 		}
@@ -119,5 +119,5 @@ func Server() {
 	http.HandleFunc("/", IndexHandler)
 	http.HandleFunc("/tasks", HandleTasks)
 	http.HandleFunc("/task/", HandleTask)
-	http.ListenAndServe(":8089", nil)
+	http.ListenAndServe(":8080", nil)
 }

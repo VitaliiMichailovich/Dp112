@@ -1,12 +1,12 @@
 angular.module('golang')
 	.constant('DEFAULTS', function() {
   		return {
-			"task1": {
+			1: {
 				"width": 8,
 				"height": 4,
 				"symbol": "#"
 			}, 
-			"task2": [{
+			2: [{
 				"width": 8,
 				"height": 5
 			}, {

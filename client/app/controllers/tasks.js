@@ -8,8 +8,8 @@ angular.module('golang')
 			console.log('id');
 			tasks.runTask(id).then(function (data) {
 				console.log(data);
-				$scope.data = data.data.resp;
-				$scope.error = data.data.reason;
+				$scope.data = data.data.resp? 'Task' + data.data.task + '\n' + data.data.resp: '';
+				$scope.error = data.data.reason? 'Task'  + data.data.task + '\n' + data.data.reason: '';
 			});
 		};
 
@@ -20,10 +20,10 @@ angular.module('golang')
 				$scope.error = '';
 				data.data.forEach(function (response, i) {
 					if (response.resp) {
-						$scope.data += response.resp + '\n';
+						$scope.data += 'Task' + response.task + '\n' + response.resp + '\n';
 					}
 					if (response.reason) {
-						$scope.error += response.reason + '\n';
+						$scope.error += 'Task' + response.task + '\n' + response.reason + '\n';
 					}
 				});
 			});
