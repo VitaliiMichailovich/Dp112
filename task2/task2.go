@@ -56,14 +56,14 @@ func task2validator(envA, envB interface{}) (int, error) {
 		return 0, fmt.Errorf("Incorrect input of envA: \"%v\". Must be \"Envelope\".", envA)
 	}
 	if env1.AB <= 0 || env1.CD <= 0 {
-		return 0, fmt.Errorf("Incorrect EnvelopeA size. Every size of envelope \"%v\" must be > 0.", env1)
+		return 0, fmt.Errorf("Incorrect EnvelopeA size. Every size of envelope \"%v\" must be greater than zero.", env1)
 	}
 	env2, ok := envB.(Envelope)
 	if !ok {
 		return 0, fmt.Errorf("Incorrect input of envB: \"%v\". Must be \"Envelope\".", envB)
 	}
 	if env2.AB <= 0 || env2.CD <= 0 {
-		return 0, fmt.Errorf("Incorrect EnvelopeB size. Every size of envelope \"%v\" must be > 0.", env2)
+		return 0, fmt.Errorf("Incorrect EnvelopeB size. Every size of envelope \"%v\" must be greater than zero.", env2)
 	}
 	if env1.CD > env1.AB {
 		env1.AB, env1.CD = env1.CD, env1.AB

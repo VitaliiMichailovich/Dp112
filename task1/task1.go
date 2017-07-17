@@ -71,7 +71,7 @@ func task1Validator(widthInterface, heightInterface, symbolInterface interface{}
 	}
 	// Check correct
 	if width <= 0 || height <= 0 || symbol == "" {
-		return "", fmt.Errorf("Incorrect input. Width (%d) and height (%d) must be greater than 0 and symbol (%s) cant be nil.", width, height, symbol)
+		return "", fmt.Errorf("Incorrect input. Width (%v) and height (%v) must be greater than 0 and symbol (%v) cant be nil.", width, height, symbol)
 	}
 	return doTask1(width, height, symbol), nil
 }
