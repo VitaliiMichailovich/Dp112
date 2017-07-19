@@ -31,7 +31,6 @@ func Task(bytesParams []byte) (string, error) {
 	return strconv.Itoa(ret), err
 }
 
-
 func init() {
 	taskregister.InitializeTask(2, Task)
 }

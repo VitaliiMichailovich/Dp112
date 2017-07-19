@@ -1,43 +1,52 @@
 package task7
 
 import (
+	"encoding/json"
 	"testing"
 )
 
 var testCase = []struct {
-	want []int64
+	in   string
+	want string
 	werr string
 }{
-	/*
-		{
-			[]int64{1597, 2584, 4181, 6765},
-			"",
-		},
-	*/
 	{
-		[]int64{},
+		"context",
+		"1597, 2584, 4181, 6765",
+		"",
+	},
+	{
+		"context1",
+		"10946, 17711, 28657, 46368, 75025",
+		"",
+	},
+	{
+		"context2",
+		"",
 		"Problem with opening 'context' file.",
 	},
 }
 
 func TestTask7(t *testing.T) {
 	for _, tc := range testCase {
-		got, err := Task7()
+		in, _ := json.Marshal(Params{Context: tc.in})
+		got, err := Task(in)
 		if err != nil && err.Error() != tc.werr {
-			t.Fatalf("Task7() got error \n%v\nwant \n%v",
-				err, tc.werr)
+			t.Fatalf("Task7(%v) got error \n%v\nwant \n%v",
+				tc.in, err, tc.werr)
 		}
-		for gotId, gotVal := range got {
-			if gotVal != tc.want[gotId] {
-				t.Fatalf("Task7() = %s, want %s",
-					got, tc.want)
-			}
+		if got != tc.want {
+			t.Fatalf("Task7(%v) = %s, want %s",
+				tc.in, got, tc.want)
 		}
 	}
 }
 
 func BenchmarkTask7(b *testing.B) {
 	for i := 0; i <= b.N; i++ {
-		Task7()
+		for _, tc := range testCase {
+			in, _ := json.Marshal(Params{Context: tc.in})
+			Task(in)
+		}
 	}
 }

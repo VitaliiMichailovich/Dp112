@@ -1,9 +1,9 @@
 package task2
 
 import (
-	"testing"
 	"encoding/json"
 	"errors"
+	"testing"
 )
 
 var testCaseTask = []struct {

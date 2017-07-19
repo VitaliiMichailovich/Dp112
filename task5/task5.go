@@ -3,17 +3,34 @@ package task5
 import (
 	"fmt"
 	"strconv"
+	"github.com/VitaliiMichailovich/DP112/taskregister"
+	"encoding/json"
 )
 
 type Params struct {
-	Min	int	`json:"min"`
-	Max	int	`json:"max"`
+	Min int `json:"min"`
+	Max int `json:"max"`
 }
 
 type Ticket struct {
 	method    string
 	easy      int
 	difficult int
+}
+
+func Task(bytesParams []byte) (string, error) {
+	var param Params
+	err := json.Unmarshal(bytesParams, &param)
+	if err != nil {
+		return "", err
+	}
+	ticket, err := task5Validator(param.Min, param.Max)
+	ticketReturn := ticket.method+", "+strconv.Itoa(ticket.easy)+", "+strconv.Itoa(ticket.difficult)
+	return ticketReturn, err
+}
+
+func init() {
+	taskregister.InitializeTask(5, Task)
 }
 
 func isHappyTicket(ticket int) (easy, difficult int) {
@@ -58,7 +75,7 @@ func doTask5(min, max int) Ticket {
 	return out
 }
 
-func task5validator(min, max interface{}) (Ticket, error) {
+func task5Validator(min, max interface{}) (Ticket, error) {
 	minInt, ok := min.(int)
 	if !ok {
 		minI, err := strconv.Atoi(min.(string))
@@ -85,8 +102,4 @@ func task5validator(min, max interface{}) (Ticket, error) {
 		return Ticket{}, fmt.Errorf("Incorrect input. To big tickets (%v, %v). Ticket vust be < 999999.", min, max)
 	}
 	return doTask5(minInt, maxInt), nil
-}
-
-func Task (param Params) (Ticket, error) {
-	return task5validator(param.Min, param.Max)
 }

@@ -1,19 +1,33 @@
 package task6
 
 import (
-	"errors"
+	"encoding/json"
 	"fmt"
+	"github.com/VitaliiMichailovich/DP112/taskregister"
 	"math"
 	"os"
 	"strconv"
 )
 
 type Params struct {
-	Length	int	`json:"length"`
-	Pow	int	`json:"pow"`
+	Length int `json:"length"`
+	Pow    int `json:"pow"`
 }
 
-const path = "./task6.txt"
+const path = "task6.txt"
+
+func Task(bytesParams []byte) (string, error) {
+	var param Params
+	err := json.Unmarshal(bytesParams, &param)
+	if err != nil {
+		return "", err
+	}
+	return "", task6Validator(param.Length, param.Pow)
+}
+
+func init() {
+	taskregister.InitializeTask(6, Task)
+}
 
 func doTask6(length, pow int) error {
 	var toFile string
@@ -30,26 +44,26 @@ func doTask6(length, pow int) error {
 	if _, err := os.Stat(path); os.IsExist(err) {
 		err := os.Remove(path)
 		if err != nil {
-			return errors.New(err.Error())
+			return err
 		}
 	}
 	var file, err = os.Create(path)
 	if err != nil {
-		return errors.New(err.Error())
+		return err
 	}
 	defer file.Close()
 	_, err = file.WriteString(toFile)
 	if err != nil {
-		return errors.New(err.Error())
+		return err
 	}
 	err = file.Sync()
 	if err != nil {
-		return errors.New(err.Error())
+		return err
 	}
 	return nil
 }
 
-func task6validator(length, pow interface{}) error {
+func task6Validator(length, pow interface{}) error {
 	lengthChecked, ok := length.(int)
 	if !ok {
 		lengthI, err := strconv.Atoi(length.(string))
@@ -70,8 +84,4 @@ func task6validator(length, pow interface{}) error {
 		return fmt.Errorf("Incorrect input: \"%v,%v\". Must be > 0.", lengthChecked, powChecked)
 	}
 	return doTask6(lengthChecked, powChecked)
-}
-
-func Task (param Params) (error) {
-	return task6validator(param.Length, param.Pow)
 }

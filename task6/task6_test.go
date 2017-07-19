@@ -1,6 +1,9 @@
 package task6
 
-import "testing"
+import (
+	"testing"
+	"encoding/json"
+)
 
 var testCase = []struct {
 	len  int
@@ -36,7 +39,8 @@ var testCase = []struct {
 
 func TestTask6(t *testing.T) {
 	for _, tc := range testCase {
-		err := Task6(tc.len, tc.pow)
+		in, _ := json.Marshal(Params{Length:tc.len, Pow:tc.pow})
+		_, err := Task(in)
 		if err != nil && err.Error() != tc.werr {
 			t.Fatalf("Task6(%d, %d) got error \n%v\nwant \n%v",
 				tc.len, tc.pow, err, tc.werr)
@@ -47,7 +51,8 @@ func TestTask6(t *testing.T) {
 func BenchmarkTask6(b *testing.B) {
 	for i := 0; i <= b.N; i++ {
 		for _, tc := range testCase {
-			Task6(tc.len, tc.pow)
+			in, _ := json.Marshal(Params{Length:tc.len, Pow:tc.pow})
+			Task(in)
 		}
 	}
 }

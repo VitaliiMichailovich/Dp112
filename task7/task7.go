@@ -7,10 +7,34 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"encoding/json"
+	"github.com/VitaliiMichailovich/DP112/taskregister"
 )
 
 type Params struct {
 	Context string `json:"context"`
+}
+
+func Task(bytesParams []byte) (string, error) {
+	var param Params
+	err := json.Unmarshal(bytesParams, &param)
+	if err != nil {
+		return "", err
+	}
+	result, err := task7Validator(param.Context)
+	var res string
+	for i := 0; i <= (len(result)-1); i++ {
+		if i == (len(result)-1) {
+			res += strconv.FormatInt(result[i], 10)
+		} else {
+			res += strconv.FormatInt(result[i], 10) + ", "
+		}
+	}
+	return res, err
+}
+
+func init() {
+	taskregister.InitializeTask(7, Task)
 }
 
 func getBitNumber(in int64) int64 {
@@ -90,7 +114,8 @@ func doTask7(path string) ([]int64, error) {
 	return fib[start:stop], nil
 }
 
-func task7validator(path string) ([]int64, error) {
+func task7Validator(pathIN interface{}) ([]int64, error) {
+	path := pathIN.(string)
 	var file, err = os.OpenFile(path, os.O_RDWR, 0644)
 	if err != nil {
 		return []int64{}, errors.New("Problem with opening 'context' file.")
@@ -129,8 +154,4 @@ func task7validator(path string) ([]int64, error) {
 		return task7Result, err
 	}
 	return task7Result, nil
-}
-
-func Task(param Params) ([]int64, error) {
-	return task7validator(param.Context)
 }

@@ -1,7 +1,9 @@
 package task3
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/VitaliiMichailovich/DP112/taskregister"
 	"math"
 	"sort"
 )
@@ -24,6 +26,28 @@ type Triangler interface {
 type square struct {
 	name string
 	sq   float64
+}
+
+func Task(bytesParams []byte) (string, error) {
+	var param []Triangle
+	err := json.Unmarshal([]byte(bytesParams), &param)
+	if err != nil {
+		return "", err
+	}
+	result, err := task3validator(param)
+	var res string
+	for i := (len(result)-1); i >= 0; i-- {
+		if i == 0 {
+			res += result[i]
+		} else {
+			res += result[i] + ","
+		}
+	}
+	return res, err
+}
+
+func init() {
+	taskregister.InitializeTask(3, Task)
 }
 
 func doTask3(triangles []Triangle) []string {
@@ -70,8 +94,4 @@ func task3validator(in []Triangle) ([]string, error) {
 		triangles = append(triangles, triangleTMP)
 	}
 	return doTask3(triangles), nil
-}
-
-func Task(param Params) ([]string, error) {
-	return task3validator(param.Triangles)
 }

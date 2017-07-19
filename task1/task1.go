@@ -1,10 +1,10 @@
 package task1
 
 import (
-	"fmt"
-	"strconv"
-	"github.com/VitaliiMichailovich/DP112/taskregister"
 	"encoding/json"
+	"fmt"
+	"github.com/VitaliiMichailovich/DP112/taskregister"
+	"strconv"
 )
 
 type Params struct {

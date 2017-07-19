@@ -5,10 +5,26 @@ import (
 	"fmt"
 	"sort"
 	"strconv"
+	"github.com/VitaliiMichailovich/DP112/taskregister"
+	"encoding/json"
 )
 
 type Params struct {
 	Number int64 `json:"number"`
+}
+
+func Task(bytesParams []byte) (string, error) {
+	var param Params
+	err := json.Unmarshal(bytesParams, &param)
+	if err != nil {
+		return "", err
+	}
+	res, err := task4Validator(param.Number)
+	return strconv.FormatInt(res, 10), err
+}
+
+func init() {
+	taskregister.InitializeTask(4, Task)
 }
 
 func palindromeChecker(in []int64) bool {
@@ -55,7 +71,7 @@ func doTask4(in int64) (int64, error) {
 	return out, err
 }
 
-func task4validator(in interface{}) (int64, error) {
+func task4Validator(in interface{}) (int64, error) {
 	number, ok := in.(int64)
 	if !ok {
 		numberReturn, err := strconv.ParseInt(in.(string), 10, 64)
@@ -72,8 +88,4 @@ func task4validator(in interface{}) (int64, error) {
 		return 0, err
 	}
 	return returnTask4, nil
-}
-
-func Task(param Params) (int64, error) {
-	return task4validator(param.Number)
 }
