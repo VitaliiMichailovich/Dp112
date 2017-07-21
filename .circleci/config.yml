@@ -24,10 +24,10 @@ jobs:
       # specify any bash command here prefixed with `run: `
       - run: go get -v -t -d ./...
       # - run: go test -v ./...
-      run: go test -v ./task1/
-      run: go test -v ./task2/
-      run: go test -v ./task3/
-      run: go test -v ./task4/
-      run: go test -v ./task5/
-      run: go test -v ./task6/
-      run: go test -v ./task7/
+      - run: go test -v ./task1/
+      - run: go test -v ./task2/
+      - run: go test -v ./task3/
+      - run: go test -v ./task4/
+      - run: go test -v ./task5/
+      - run: go test -v ./task6/
+      - run: go test -v ./task7/
