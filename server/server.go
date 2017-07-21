@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"os"
 )
 
 type WriteBack struct {
@@ -100,5 +101,6 @@ func Server() {
 	http.HandleFunc("/", IndexHandler)
 	http.HandleFunc("/tasks", HandleTasks)
 	http.HandleFunc("/task/", HandleTask)
-	http.ListenAndServe(":8080", nil)
+	port := os.Getenv("PORT")
+	http.ListenAndServe(":"+port, nil)
 }
