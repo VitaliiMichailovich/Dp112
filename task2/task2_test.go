@@ -2,7 +2,6 @@ package task2
 
 import (
 	"encoding/json"
-	"fmt"
 	"testing"
 )
 
