@@ -32,11 +32,9 @@ jobs:
       #- run: go test -v ./task7/
       - run: go build ./main.go
       #- run: ./main
-  preDeploy:
-    steps:
+
       - run: wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
-  deploy:
-    steps:
+
       - run: heroku login
       - run: echo "StrictHostKeyChecking=no" >> ~/.ssh/config
       - run: git remote add heroku git@heroku.com/dp112.git
